@@ -23,4 +23,10 @@ public class PulsarConfig {
     @Value("${PULSAR_OPERATION_TIMEOUT_SECONDS:15}")
     public int pulsarOperationTimeoutSeconds;
 
+    @Value("${PULSAR_PRODUCER_BATCH:false}")
+    public boolean pulsarProducerBatch;
+
+    @Value("${PULSAR_PRODUCER_BATCH_DELAY_MS:1")
+    public long pulsarProducerBatchDelayMs;
+
 }

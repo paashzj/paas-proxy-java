@@ -20,6 +20,8 @@ public class PulsarClientService {
 
     private final PulsarClient pulsarClient;
 
+    private final PulsarConfig pulsarConfig;
+
     public PulsarClientService(@Autowired PulsarConfig pulsarConfig) {
         try {
             pulsarClient = PulsarClient.builder()
@@ -27,6 +29,7 @@ public class PulsarClientService {
                     .ioThreads(pulsarConfig.pulsarIoThreads)
                     .serviceUrl(String.format("http://%s:%s", pulsarConfig.pulsarHost, pulsarConfig.pulsarPort))
                     .build();
+            this.pulsarConfig = pulsarConfig;
         } catch (Exception e) {
             log.error("create pulsar client exception ", e);
             throw new IllegalArgumentException("build pulsar client exception, exit");
@@ -35,6 +38,12 @@ public class PulsarClientService {
 
     public Producer<byte[]> createProducer(TopicKey topicKey) throws Exception {
         ProducerBuilder<byte[]> producerBuilder = pulsarClient.newProducer().enableBatching(true).maxPendingMessages(100);
+        if (pulsarConfig.pulsarProducerBatch) {
+            producerBuilder = producerBuilder.enableBatching(true);
+            producerBuilder = producerBuilder.batchingMaxPublishDelay(pulsarConfig.pulsarProducerBatchDelayMs, TimeUnit.MILLISECONDS);
+        } else {
+            producerBuilder = producerBuilder.enableBatching(false);
+        }
         return producerBuilder.topic(concatTopicFn(topicKey)).create();
     }
 
