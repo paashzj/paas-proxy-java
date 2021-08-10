@@ -25,9 +25,9 @@ public class PulsarClientService {
     public PulsarClientService(@Autowired PulsarConfig pulsarConfig) {
         try {
             pulsarClient = PulsarClient.builder()
-                    .operationTimeout(pulsarConfig.pulsarOperationTimeoutSeconds, TimeUnit.SECONDS)
-                    .ioThreads(pulsarConfig.pulsarIoThreads)
-                    .serviceUrl(String.format("http://%s:%s", pulsarConfig.pulsarHost, pulsarConfig.pulsarPort))
+                    .operationTimeout(pulsarConfig.operationTimeoutSeconds, TimeUnit.SECONDS)
+                    .ioThreads(pulsarConfig.ioThreads)
+                    .serviceUrl(String.format("http://%s:%s", pulsarConfig.host, pulsarConfig.port))
                     .build();
             this.pulsarConfig = pulsarConfig;
         } catch (Exception e) {
@@ -38,10 +38,11 @@ public class PulsarClientService {
 
     public Producer<byte[]> createProducer(TopicKey topicKey) throws Exception {
         ProducerBuilder<byte[]> builder = pulsarClient.newProducer().enableBatching(true);
-        builder = builder.maxPendingMessages(pulsarConfig.pulsarProducerMaxPendingMessage);
-        if (pulsarConfig.pulsarProducerBatch) {
+        builder = builder.maxPendingMessages(pulsarConfig.producerMaxPendingMessage);
+        builder = builder.autoUpdatePartitions(pulsarConfig.autoUpdatePartition);
+        if (pulsarConfig.producerBatch) {
             builder = builder.enableBatching(true);
-            builder = builder.batchingMaxPublishDelay(pulsarConfig.pulsarProducerBatchDelayMs, TimeUnit.MILLISECONDS);
+            builder = builder.batchingMaxPublishDelay(pulsarConfig.producerBatchDelayMs, TimeUnit.MILLISECONDS);
         } else {
             builder = builder.enableBatching(false);
         }

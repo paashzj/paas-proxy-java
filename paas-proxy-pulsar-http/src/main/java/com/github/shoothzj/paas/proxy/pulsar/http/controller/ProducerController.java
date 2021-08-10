@@ -79,7 +79,7 @@ public class ProducerController {
                                                         @PathVariable(name = "topic") String topic, @RequestBody ProduceMsgReq produceMsgReq) {
         CompletableFuture<ResponseEntity<ProduceMsgResp>> future = new CompletableFuture<>();
         long startTime = System.currentTimeMillis();
-        int random = pulsarConfig.pulsarTopicRandom;
+        int random = pulsarConfig.topicRandom;
         if (random > 0) {
             int index = RANDOM.nextInt(random);
             topic = topic + "_" + index;
@@ -99,11 +99,11 @@ public class ProducerController {
                         return;
                     }
                     log.info("topic {} send success, msg id is {}", finalTopic, messageId);
-                    if (pulsarConfig.pulsarProducerSemantic.equals(Semantic.AT_LEAST_ONCE)) {
+                    if (pulsarConfig.producerSemantic.equals(Semantic.AT_LEAST_ONCE)) {
                         future.complete(new ResponseEntity<>(new ProduceMsgResp(System.currentTimeMillis() - startTime), HttpStatus.OK));
                     }
                 }));
-                if (pulsarConfig.pulsarProducerSemantic.equals(Semantic.AT_MOST_ONCE)) {
+                if (pulsarConfig.producerSemantic.equals(Semantic.AT_MOST_ONCE)) {
                     future.complete(new ResponseEntity<>(new ProduceMsgResp(System.currentTimeMillis() - startTime), HttpStatus.OK));
                 }
             } catch (Exception ex) {
