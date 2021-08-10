@@ -5,8 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>paas-proxy</module>
-        <module>paas-pulsar-proxy-http</module>
-        <module>paas-common-proxy-http</module>
+        <module>paas-proxy-pulsar-http</module>
+        <module>paas-proxy-common-http</module>
+        <module>paas-proxy-pulsar</module>
+        <module>paas-proxy-common</module>
     </modules>
 
     <parent>
