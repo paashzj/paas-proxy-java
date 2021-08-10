@@ -1,11 +1,11 @@
 package com.github.shoothzj.paas.proxy.module;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.Data;
 
 /**
  * @author hezhangjian
  */
-@Slf4j
+@Data
 public class ThreadMetricsAux {
 
     private long usedNanoTime;
@@ -20,19 +20,4 @@ public class ThreadMetricsAux {
         this.lastNanoTime = lastNanoTime;
     }
 
-    public long getUsedNanoTime() {
-        return usedNanoTime;
-    }
-
-    public void setUsedNanoTime(long usedNanoTime) {
-        this.usedNanoTime = usedNanoTime;
-    }
-
-    public long getLastNanoTime() {
-        return lastNanoTime;
-    }
-
-    public void setLastNanoTime(long lastNanoTime) {
-        this.lastNanoTime = lastNanoTime;
-    }
 }
