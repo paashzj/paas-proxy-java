@@ -37,14 +37,14 @@ public class PulsarClientService {
     }
 
     public Producer<byte[]> createProducer(TopicKey topicKey) throws Exception {
-        ProducerBuilder<byte[]> producerBuilder = pulsarClient.newProducer().enableBatching(true).maxPendingMessages(100);
+        ProducerBuilder<byte[]> builder = pulsarClient.newProducer().enableBatching(true).maxPendingMessages(pulsarConfig.pulsarProducerMaxPendingMessage);
         if (pulsarConfig.pulsarProducerBatch) {
-            producerBuilder = producerBuilder.enableBatching(true);
-            producerBuilder = producerBuilder.batchingMaxPublishDelay(pulsarConfig.pulsarProducerBatchDelayMs, TimeUnit.MILLISECONDS);
+            builder = builder.enableBatching(true);
+            builder = builder.batchingMaxPublishDelay(pulsarConfig.pulsarProducerBatchDelayMs, TimeUnit.MILLISECONDS);
         } else {
-            producerBuilder = producerBuilder.enableBatching(false);
+            builder = builder.enableBatching(false);
         }
-        return producerBuilder.topic(concatTopicFn(topicKey)).create();
+        return builder.topic(concatTopicFn(topicKey)).create();
     }
 
     private String concatTopicFn(TopicKey topicKey) {
