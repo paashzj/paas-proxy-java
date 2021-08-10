@@ -37,7 +37,8 @@ public class PulsarClientService {
     }
 
     public Producer<byte[]> createProducer(TopicKey topicKey) throws Exception {
-        ProducerBuilder<byte[]> builder = pulsarClient.newProducer().enableBatching(true).maxPendingMessages(pulsarConfig.pulsarProducerMaxPendingMessage);
+        ProducerBuilder<byte[]> builder = pulsarClient.newProducer().enableBatching(true);
+        builder = builder.maxPendingMessages(pulsarConfig.pulsarProducerMaxPendingMessage);
         if (pulsarConfig.pulsarProducerBatch) {
             builder = builder.enableBatching(true);
             builder = builder.batchingMaxPublishDelay(pulsarConfig.pulsarProducerBatchDelayMs, TimeUnit.MILLISECONDS);
