@@ -2,7 +2,7 @@
 <Configuration status="warn" monitorInterval="10">
     <Appenders>
         <RollingFile name="RollingFile" fileName="logs/paas-proxy.log"
-                     filePattern="logs/app-%d{yyyy-MM-dd HH}.log">
+                     filePattern="logs/paas-proxy-%d{yyyy-MM-dd HH}.log">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd,HH:mm:ss,SSSXXX}(%r):%4p%X[%t#%T]-->%m%n</Pattern>
             </PatternLayout>
