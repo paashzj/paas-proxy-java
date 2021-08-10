@@ -6,6 +6,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.github.shoothzj.paas.common.proxy.http.module.ProduceMsgReq;
 import com.github.shoothzj.paas.common.proxy.http.module.ProduceMsgResp;
+import com.github.shoothzj.paas.proxy.pulsar.http.config.PulsarConfig;
 import com.github.shoothzj.paas.proxy.pulsar.http.module.TopicKey;
 import com.github.shoothzj.paas.proxy.pulsar.http.service.PulsarClientService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -37,7 +39,12 @@ public class ProducerController {
     @Autowired
     private PulsarClientService pulsarClientService;
 
+    @Autowired
+    private PulsarConfig pulsarConfig;
+
     private AsyncLoadingCache<TopicKey, Producer<byte[]>> producerCache;
+
+    private final Random RANDOM = new Random();
 
     @PostConstruct
     public void init() {
@@ -71,7 +78,13 @@ public class ProducerController {
                                                         @PathVariable(name = "topic") String topic, @RequestBody ProduceMsgReq produceMsgReq) {
         CompletableFuture<ResponseEntity<ProduceMsgResp>> future = new CompletableFuture<>();
         long startTime = System.currentTimeMillis();
+        int random = pulsarConfig.pulsarTopicRandom;
+        if (random > 0) {
+            int index = RANDOM.nextInt(random);
+            topic = topic + "_" + index;
+        }
         final CompletableFuture<Producer<byte[]>> cacheFuture = producerCache.get(new TopicKey(tenant, namespace, topic));
+        String finalTopic = topic;
         cacheFuture.whenComplete((producer, e) -> {
             if (e != null) {
                 log.error("create pulsar client exception ", e);
@@ -83,7 +96,7 @@ public class ProducerController {
                     log.error("send producer msg error ", throwable);
                     return;
                 }
-                log.info("topic {} send success, msg id is {}", topic, messageId);
+                log.info("topic {} send success, msg id is {}", finalTopic, messageId);
                 future.complete(new ResponseEntity<>(new ProduceMsgResp(System.currentTimeMillis() - startTime), HttpStatus.OK));
             }));
         });

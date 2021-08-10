@@ -32,4 +32,7 @@ public class PulsarConfig {
     @Value("${PULSAR_PRODUCER_BATCH_DELAY_MS:1}")
     public long pulsarProducerBatchDelayMs;
 
+    @Value("${PULSAR_TOPIC_RANDOM:0}")
+    public int pulsarTopicRandom;
+
 }
