@@ -24,10 +24,10 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
-import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author hezhangjian
@@ -45,7 +45,7 @@ public class ProducerController {
 
     private AsyncLoadingCache<TopicKey, Producer<byte[]>> producerCache;
 
-    private final Random RANDOM = new Random();
+    private final AtomicInteger atomicInteger = new AtomicInteger();
 
     @PostConstruct
     public void init() {
@@ -79,9 +79,10 @@ public class ProducerController {
                                                         @PathVariable(name = "topic") String topic, @RequestBody ProduceMsgReq produceMsgReq) {
         CompletableFuture<ResponseEntity<ProduceMsgResp>> future = new CompletableFuture<>();
         long startTime = System.currentTimeMillis();
-        int random = pulsarConfig.topicRandom;
-        if (random > 0) {
-            int index = RANDOM.nextInt(random);
+        int topicSuffixNum = pulsarConfig.topicSuffixNum;
+        if (topicSuffixNum > 0) {
+            final int increment = atomicInteger.getAndIncrement();
+            int index = increment % topicSuffixNum;
             topic = topic + "_" + index;
         }
         final CompletableFuture<Producer<byte[]>> cacheFuture = producerCache.get(new TopicKey(tenant, namespace, topic));

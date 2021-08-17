@@ -21,8 +21,8 @@ public class PulsarConfig {
     @Value("${PULSAR_IO_THREADS:4}")
     public int ioThreads;
 
-    @Value("${PULSAR_TOPIC_RANDOM:0}")
-    public int topicRandom;
+    @Value("${PULSAR_TOPIC_SUFFIX_NUM:0}")
+    public int topicSuffixNum;
 
     @Value("${PULSAR_AUTO_UPDATE_PARTITION:false}")
     public boolean autoUpdatePartition;
