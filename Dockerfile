@@ -1,7 +1,7 @@
 #
 # Build stage
 #
-FROM ttbb/compile:jdk11-git AS build
+FROM ttbb/compile:jdk11-git-mvn AS build
 COPY . /opt/sh/compile
 WORKDIR /opt/sh/compile
 RUN mvn -B clean package
