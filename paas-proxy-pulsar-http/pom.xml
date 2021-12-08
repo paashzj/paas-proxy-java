@@ -27,6 +27,11 @@
             <artifactId>paas-proxy-pulsar</artifactId>
             <version>0.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.shoothzj</groupId>
+            <artifactId>test-configuration</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
 
 </project>

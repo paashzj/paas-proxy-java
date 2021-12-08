@@ -9,6 +9,7 @@
         <module>paas-proxy-common-http</module>
         <module>paas-proxy-pulsar</module>
         <module>paas-proxy-common</module>
+        <module>test-configuration</module>
     </modules>
 
     <parent>

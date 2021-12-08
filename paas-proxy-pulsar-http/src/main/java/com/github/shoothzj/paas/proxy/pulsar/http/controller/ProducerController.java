@@ -11,6 +11,7 @@ import com.github.shoothzj.paas.proxy.pulsar.config.PulsarConfig;
 import com.github.shoothzj.paas.proxy.pulsar.module.TopicKey;
 import com.github.shoothzj.paas.proxy.pulsar.service.PulsarClientService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.pulsar.client.api.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -77,6 +78,9 @@ public class ProducerController {
     @PostMapping(path = "/tenants/{tenant}/namespaces/{namespace}/topics/{topic}/produce")
     public Mono<ResponseEntity<ProduceMsgResp>> produce(@PathVariable(name = "tenant") String tenant, @PathVariable(name = "namespace") String namespace,
                                                         @PathVariable(name = "topic") String topic, @RequestBody ProduceMsgReq produceMsgReq) {
+        if (StringUtils.isEmpty(produceMsgReq.getMsg())) {
+            return Mono.error(new Exception("msg can't be empty"));
+        }
         CompletableFuture<ResponseEntity<ProduceMsgResp>> future = new CompletableFuture<>();
         long startTime = System.currentTimeMillis();
         int topicSuffixNum = pulsarConfig.topicSuffixNum;
