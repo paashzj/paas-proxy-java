@@ -32,7 +32,7 @@ public class ThreadMetricService {
     private final HashMap<Meter.Id, AtomicDouble> dynamicGauges = new HashMap<>();
 
     /**
-     * one minutes
+     * one minutes.
      */
     @Scheduled(cron = "0 * * * * ?")
     public void schedule() {

@@ -23,13 +23,21 @@ public class TopicKey {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         TopicKey topicKey = (TopicKey) o;
 
-        if (!Objects.equals(tenant, topicKey.tenant)) return false;
-        if (!Objects.equals(namespace, topicKey.namespace)) return false;
+        if (!Objects.equals(tenant, topicKey.tenant)) {
+            return false;
+        }
+        if (!Objects.equals(namespace, topicKey.namespace)) {
+            return false;
+        }
         return Objects.equals(topic, topicKey.topic);
     }
 
