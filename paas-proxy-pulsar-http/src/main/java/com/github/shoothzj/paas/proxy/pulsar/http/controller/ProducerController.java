@@ -61,7 +61,7 @@ public class ProducerController {
                         log.error("close failed, ", e);
                     }
                 })
-                .buildAsync(new AsyncCacheLoader<TopicKey, Producer<byte[]>>() {
+                .buildAsync(new AsyncCacheLoader<>() {
                     @Override
                     public CompletableFuture<Producer<byte[]>> asyncLoad(TopicKey key, Executor executor) {
                         return acquireFuture(key);
@@ -76,8 +76,10 @@ public class ProducerController {
     }
 
     @PostMapping(path = "/tenants/{tenant}/namespaces/{namespace}/topics/{topic}/produce")
-    public Mono<ResponseEntity<ProduceMsgResp>> produce(@PathVariable(name = "tenant") String tenant, @PathVariable(name = "namespace") String namespace,
-                                                        @PathVariable(name = "topic") String topic, @RequestBody ProduceMsgReq produceMsgReq) {
+    public Mono<ResponseEntity<ProduceMsgResp>> produce(@PathVariable(name = "tenant") String tenant,
+                                                        @PathVariable(name = "namespace") String namespace,
+                                                        @PathVariable(name = "topic") String topic,
+                                                        @RequestBody ProduceMsgReq produceMsgReq) {
         if (StringUtils.isEmpty(produceMsgReq.getMsg())) {
             return Mono.error(new Exception("msg can't be empty"));
         }
@@ -89,7 +91,8 @@ public class ProducerController {
             int index = increment % topicSuffixNum;
             topic = topic + "_" + index;
         }
-        final CompletableFuture<Producer<byte[]>> cacheFuture = producerCache.get(new TopicKey(tenant, namespace, topic));
+        TopicKey topicKey = new TopicKey(tenant, namespace, topic);
+        final CompletableFuture<Producer<byte[]>> cacheFuture = producerCache.get(topicKey);
         String finalTopic = topic;
         cacheFuture.whenComplete((producer, e) -> {
             if (e != null) {
@@ -98,16 +101,18 @@ public class ProducerController {
                 return;
             }
             try {
-                producer.sendAsync(produceMsgReq.getMsg().getBytes(StandardCharsets.UTF_8)).whenComplete(((messageId, throwable) -> {
-                    if (throwable != null) {
-                        log.error("send producer msg error ", throwable);
-                        return;
-                    }
-                    log.info("topic {} send success, msg id is {}", finalTopic, messageId);
-                    if (pulsarConfig.producerSemantic.equals(Semantic.AT_LEAST_ONCE)) {
-                        future.complete(new ResponseEntity<>(new ProduceMsgResp(System.currentTimeMillis() - startTime), HttpStatus.OK));
-                    }
-                }));
+                producer.sendAsync(produceMsgReq.getMsg().getBytes(StandardCharsets.UTF_8))
+                        .whenComplete(((messageId, throwable) -> {
+                            if (throwable != null) {
+                                log.error("send producer msg error ", throwable);
+                                future.complete(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+                                return;
+                            }
+                            log.info("topic {} send success, msg id is {}", finalTopic, messageId);
+                            if (pulsarConfig.producerSemantic.equals(Semantic.AT_LEAST_ONCE)) {
+                                future.complete(new ResponseEntity<>(new ProduceMsgResp(System.currentTimeMillis() - startTime), HttpStatus.OK));
+                            }
+                        }));
                 if (pulsarConfig.producerSemantic.equals(Semantic.AT_MOST_ONCE)) {
                     future.complete(new ResponseEntity<>(new ProduceMsgResp(System.currentTimeMillis() - startTime), HttpStatus.OK));
                 }

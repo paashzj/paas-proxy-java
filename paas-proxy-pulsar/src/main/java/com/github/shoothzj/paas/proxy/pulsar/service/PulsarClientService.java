@@ -50,7 +50,8 @@ public class PulsarClientService {
     }
 
     private String concatTopicFn(TopicKey topicKey) {
-        return String.format("persistent://%s/%s/%s", topicKey.getTenant(), topicKey.getNamespace(), topicKey.getTopic());
+        return String.format("persistent://%s/%s/%s",
+                topicKey.getTenant(), topicKey.getNamespace(), topicKey.getTopic());
     }
 
 }

@@ -1,4 +1,5 @@
 # paas-proxy
+[![codecov](https://codecov.io/gh/paashzj/pass-proxy-java/branch/main/graph/badge.svg?token=155QKNN7MQ)](https://codecov.io/gh/paashzj/pass-proxy-java)
 
 ## http test command
 ### pulsar-http
