@@ -12,6 +12,8 @@ FROM ttbb/base:jdk11
 LABEL maintainer="shoothzj@gmail.com"
 
 COPY --from=build /opt/sh/compile/paas-proxy/target/paas-proxy-0.0.1.jar /opt/sh/paas-proxy.jar
+COPY --from=build /opt/sh/compile/paas-proxy/target/lib/* /opt/sh/lib/
+COPY --from=build /opt/sh/compile/paas-proxy/target/conf/* /opt/sh/conf/
 
 COPY docker-build /opt/sh
 
