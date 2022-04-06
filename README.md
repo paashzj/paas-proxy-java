@@ -1,6 +1,11 @@
 # paas-proxy
 [![codecov](https://codecov.io/gh/paashzj/pass-proxy-java/branch/main/graph/badge.svg?token=155QKNN7MQ)](https://codecov.io/gh/paashzj/pass-proxy-java)
 
+## environment variables
+### MAVEN_ADDRESS
+example: localhost
+### PULSAR_JAR_VERSION
+example: 2.10.0-202222
 ## http test command
 ### pulsar-http
 ```bash
