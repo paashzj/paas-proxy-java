@@ -33,4 +33,4 @@ COPY --from=build /opt/sh/compile/paas-proxy/target/conf/* /opt/sh/conf/
 
 COPY docker-build /opt/sh
 
-CMD ["/usr/local/bin/dumb-init", "bash", "-vx","/opt/sh/scripts/start.sh"]
+CMD ["/usr/bin/dumb-init", "bash", "-vx","/opt/sh/scripts/start.sh"]
