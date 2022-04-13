@@ -61,4 +61,10 @@ public class PulsarConfig {
     @Value("${PULSAR_PRODUCER_BATCH_DELAY_MS:1}")
     public long producerBatchDelayMs;
 
+    @Value("${PULSAR_PRODUCER_CACHE_SECONDS:600}")
+    public long producerCacheSeconds;
+
+    @Value("${PULSAR_PRODUCER_MAX_SIZE:3000}")
+    public long producerMaxSize;
+
 }

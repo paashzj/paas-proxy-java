@@ -70,8 +70,8 @@ public class ProducerController {
     @PostConstruct
     public void init() {
         this.producerCache = Caffeine.newBuilder()
-                .expireAfterAccess(600, TimeUnit.SECONDS)
-                .maximumSize(3000)
+                .expireAfterAccess(pulsarConfig.producerCacheSeconds, TimeUnit.SECONDS)
+                .maximumSize(pulsarConfig.producerMaxSize)
                 .removalListener((RemovalListener<TopicKey, Producer<byte[]>>) (key, value, cause) -> {
                     log.info("topic {} cache removed, because of {}", key.getTopic(), cause);
                     try {
