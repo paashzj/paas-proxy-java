@@ -67,4 +67,36 @@ public class PulsarConfig {
     @Value("${PULSAR_PRODUCER_MAX_SIZE:3000}")
     public long producerMaxSize;
 
+    @Value("${CONNECTION_TIMEOUT_SECONDS:15}")
+    public int connectionTimeoutSeconds;
+
+    @Value("${PULSAR_TENANT_PREFIX_NAME:}")
+    public String tenantPrefixName;
+
+    @Value("${PULSAR_TENANT_SUFFIX_NUM:1}")
+    public int tenantSuffixNum;
+
+    @Value("${PULSAR_TENANT_SUFFIX_NUM_OF_DIGITS:0}")
+    public int tenantSuffixNumOfDigits;
+
+    @Value("${PULSAR_NAMESPACE_PREFIX_NAME:}")
+    public String namespacePrefixName;
+
+    @Value("${PULSAR_NAMESPACE_SUFFIX_NUM:1}")
+    public int namespaceSuffixNum;
+
+    @Value("${PULSAR_NAMESPACE_SUFFIX_NUM_OF_DIGITS:0}")
+    public int namespaceSuffixNumOfDigits;
+
+    @Value("${PULSAR_TTL_SECONDS:60}")
+    public int ttlInSeconds;
+
+    @Value("${PULSAR_QUOTA_BYTES:1024}")
+    public int quotaBytes;
+
+    @Value("${PULSAR_RETENTION_TIMES_MINUTES:2880}")
+    public int retentionTimes;
+
+    @Value("${PULSAR_RETENTION_SIZE:1024}")
+    public int retentionSize;
 }
