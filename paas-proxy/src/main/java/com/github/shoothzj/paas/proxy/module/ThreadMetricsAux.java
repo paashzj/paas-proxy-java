@@ -21,9 +21,6 @@ package com.github.shoothzj.paas.proxy.module;
 
 import lombok.Data;
 
-/**
- * @author hezhangjian
- */
 @Data
 public class ThreadMetricsAux {
 

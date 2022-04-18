@@ -49,9 +49,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * @author hezhangjian
- */
 @Slf4j
 @RestController
 @RequestMapping(path = "/v1/pulsar")

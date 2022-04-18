@@ -24,9 +24,6 @@ import lombok.Data;
 
 import java.util.Objects;
 
-/**
- * @author hezhangjian
- */
 @Data
 @AllArgsConstructor
 public class TopicKey {
