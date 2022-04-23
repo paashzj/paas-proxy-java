@@ -35,7 +35,7 @@
     <parent>
         <groupId>com.github.shoothzj</groupId>
         <artifactId>java-dependency</artifactId>
-        <version>3.1.25</version>
+        <version>3.1.26</version>
     </parent>
 
     <groupId>com.github.shoothzj</groupId>
@@ -53,6 +53,10 @@
             <groupId>com.github.shoothzj</groupId>
             <artifactId>java-tool</artifactId>
             <version>3.1.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
@@ -76,7 +80,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.2</version>
                 <configuration>
                     <configLocation>./ci/checkstyle/checkstyle.xml</configLocation>
                     <suppressionsLocation>./ci/checkstyle/suppressions.xml</suppressionsLocation>
@@ -88,10 +91,9 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.6.0.0</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
-                    <failOnError>false</failOnError>
+                    <failOnError>true</failOnError>
                 </configuration>
             </plugin>
         </plugins>

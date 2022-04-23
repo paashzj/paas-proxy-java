@@ -32,6 +32,7 @@ import com.github.shoothzj.paas.proxy.pulsar.service.PulsarClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pulsar.client.api.Producer;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,11 +79,13 @@ public class ProducerController {
                     }
                 })
                 .buildAsync(new AsyncCacheLoader<>() {
+                    @NotNull
                     @Override
-                    public CompletableFuture<Producer<byte[]>> asyncLoad(TopicKey key, Executor executor) {
+                    public CompletableFuture<Producer<byte[]>> asyncLoad(@NotNull TopicKey key,@NotNull Executor executor) {
                         return acquireFuture(key);
                     }
 
+                    @NotNull
                     @Override
                     public CompletableFuture<Producer<byte[]>> asyncReload(TopicKey key, Producer<byte[]> oldValue,
                                                                            Executor executor) {
