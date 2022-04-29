@@ -81,14 +81,15 @@ public class ProducerController {
                 .buildAsync(new AsyncCacheLoader<>() {
                     @NotNull
                     @Override
-                    public CompletableFuture<Producer<byte[]>> asyncLoad(@NotNull TopicKey key,@NotNull Executor executor) {
+                    public CompletableFuture<Producer<byte[]>> asyncLoad(@NotNull TopicKey key, @NotNull Executor executor) {
                         return acquireFuture(key);
                     }
 
                     @NotNull
                     @Override
-                    public CompletableFuture<Producer<byte[]>> asyncReload(TopicKey key, Producer<byte[]> oldValue,
-                                                                           Executor executor) {
+                    public CompletableFuture<Producer<byte[]>> asyncReload(@NotNull TopicKey key,
+                                                                           @NotNull Producer<byte[]> oldValue,
+                                                                           @NotNull Executor executor) {
                         return acquireFuture(key);
                     }
                 });
