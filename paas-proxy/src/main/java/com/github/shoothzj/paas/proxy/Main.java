@@ -26,7 +26,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import java.time.LocalDateTime;
 
 @EnableScheduling
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.github.shoothzj.sdk.spring", "com.github.shoothzj.paas.proxy"})
 public class Main {
 
     public static void main(String[] args) {

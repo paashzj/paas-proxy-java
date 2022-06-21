@@ -39,6 +39,11 @@
             <version>0.0.1</version>
         </dependency>
         <dependency>
+            <groupId>com.github.shoothzj</groupId>
+            <artifactId>sdk-spring-metrics</artifactId>
+            <version>${sh-sdk.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
