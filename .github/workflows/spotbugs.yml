@@ -24,7 +24,7 @@ on:
       - main
 
 jobs:
-  publish:
+  spotbugs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -34,4 +34,4 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: spotbugs
-        run: mvn -B clean verify spotbugs:spotbugs
+        run: mvn -B -DskipTests clean verify spotbugs:spotbugs
